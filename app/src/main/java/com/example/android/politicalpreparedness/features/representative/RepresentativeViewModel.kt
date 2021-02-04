@@ -1,4 +1,4 @@
-package com.example.android.politicalpreparedness.representative
+package com.example.android.politicalpreparedness.features.representative
 
 import androidx.lifecycle.ViewModel
 

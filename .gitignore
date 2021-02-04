@@ -88,3 +88,4 @@ lint/tmp/
 *.hprof
 
 .DS_STORE
+/.idea/compiler.xml

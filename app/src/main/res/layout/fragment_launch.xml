@@ -10,9 +10,36 @@
 
         <!-- TODO: Add image for home screen logo. -->
 
-        <!-- TODO: Add Button to navigate to upcoming elections. -->
+        <ImageView
+            android:id="@+id/ballotLogoImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ballot_logo"
+            />
+
+        <Button
+            android:id="@+id/upcomingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upcoming Election"
+            app:layout_constraintBottom_toTopOf="@id/representativeButton"
+            android:layout_marginBottom="8dp"
+            />
 
         <!-- TODO: Add Button to navigate to representatives. -->
+        <Button
+            android:id="@+id/representativeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find my representatives"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
