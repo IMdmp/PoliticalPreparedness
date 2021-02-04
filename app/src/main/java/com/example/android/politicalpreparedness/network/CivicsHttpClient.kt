@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.network
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 
 class CivicsHttpClient: OkHttpClient() {
@@ -10,6 +11,7 @@ class CivicsHttpClient: OkHttpClient() {
 
         fun getClient(): OkHttpClient {
             return Builder()
+                    .addNetworkInterceptor(StethoInterceptor())
                     .addInterceptor { chain ->
                         val original = chain.request()
                         val url = original
