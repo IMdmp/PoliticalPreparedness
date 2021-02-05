@@ -11,6 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.politicalpreparedness.CustomApplication
+import com.example.android.politicalpreparedness.base.BaseFragment
+import com.example.android.politicalpreparedness.base.BaseViewModel
+import com.example.android.politicalpreparedness.base.NavigationCommand
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentLaunchBinding
 import com.example.android.politicalpreparedness.features.election.adapter.ElectionListAdapter
@@ -24,7 +27,7 @@ import retrofit2.await
 import timber.log.Timber
 import java.lang.Exception
 
-class ElectionsFragment: Fragment(), ElectionListener {
+class ElectionsFragment: BaseFragment(), ElectionListener {
 
     private lateinit var viewModel: ElectionsViewModel
     private lateinit var adapter:ElectionListAdapter
@@ -64,13 +67,17 @@ class ElectionsFragment: Fragment(), ElectionListener {
         })
     }
 
+    override val _viewModel: BaseViewModel
+        get() = viewModel
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         customApplication = requireActivity().application as CustomApplication
     }
 
     override fun onElectionSelected(election: Election) {
-
+        _viewModel.navigationCommand.value =
+                NavigationCommand.To(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election.id,election.division))
     }
     //TODO: Refresh adapters when fragment loads
 

@@ -16,6 +16,8 @@ buildscript {
         version_glide = "4.11.0"
         version_play_services_location = "17.0.0"
         version_room = "2.2.5"
+        navigationVersion = "2.2.0"
+
     }
 
     repositories {
@@ -27,6 +29,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$version_kotlin"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$version_kotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+
     }
 }
 
