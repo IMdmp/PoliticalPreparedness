@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.data.ElectionRepository
 
 //TODO: Create Factory to generate VoterInfoViewModel with provided election datasource
-class VoterInfoViewModelFactory(private val electionRepository: ElectionRepository): ViewModelProvider.Factory {
+class VoterInfoViewModelFactory(private val electionRepository: ElectionRepository,
+                                private val voterInfoFragmentArgs: VoterInfoFragmentArgs)
+    : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(VoterInfoViewModel::class.java)){
-            return VoterInfoViewModel(electionRepository) as T
+        if (modelClass.isAssignableFrom(VoterInfoViewModel::class.java)) {
+            return VoterInfoViewModel(electionRepository,voterInfoFragmentArgs) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
 

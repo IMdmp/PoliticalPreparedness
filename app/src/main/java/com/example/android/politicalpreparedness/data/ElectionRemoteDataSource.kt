@@ -2,6 +2,8 @@ package com.example.android.politicalpreparedness.data
 
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import retrofit2.await
 import java.lang.Exception
 
@@ -16,7 +18,14 @@ class ElectionRemoteDataSource :ElectionDataSource{
         }
     }
 
-    override suspend fun deleteAllElections() {
-        // NO OP
+    override suspend fun getVoterInfo(address:String,electionId:Int):Result<VoterInfoResponse> {
+        return try{
+            val res = CivicsApi.retrofitService.getVoterInfo(address,electionId).await()
+            Result.Success(res)
+        }catch (e:Exception){
+            Result.Error(e)
+        }
     }
+
+
 }

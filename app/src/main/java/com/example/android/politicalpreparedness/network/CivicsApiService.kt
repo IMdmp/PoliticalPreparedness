@@ -43,7 +43,7 @@ interface CivicsApiService {
     fun getElectionList(): Call<ElectionResponse>
 
     @GET("voterinfo")
-    fun getVoterInfo(@Query("address")address:String):Call<VoterInfoResponse> //currently no data. (have to use election id 2000.) handle errors for now.
+    fun getVoterInfo(@Query("address")address:String,@Query("electionId") electionId:Int):Call<VoterInfoResponse> //currently no data. (have to use election id 2000.) handle errors for now.
 
     @GET("representatives")
     fun getRepresentatives(@Query("address")address:String):Call<RepresentativeResponse>

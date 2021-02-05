@@ -1,8 +1,8 @@
 package com.example.android.politicalpreparedness.data
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -29,5 +29,9 @@ class ElectionRepository(
         }else if (remoteElectionList is Result.Error){
             throw remoteElectionList.exception
         }
+    }
+
+    suspend fun getVoterInfo(address:String,electionId:Int):Result<VoterInfoResponse> {
+        return electionRemoteDataSource.getVoterInfo(address,electionId)
     }
 }

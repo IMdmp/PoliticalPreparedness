@@ -59,9 +59,6 @@ class RepresentativeViewHolder(val binding: ItemRepresentativeBinding): Recycler
 
         binding.executePendingBindings()
     }
-
-    //TODO: Add companion object to inflate ViewHolder (from)
-
     private fun showSocialLinks(channels: List<Channel>) {
         val facebookUrl = getFacebookUrl(channels)
         if (!facebookUrl.isNullOrBlank()) { enableLink(binding.facebookIcon, facebookUrl) }
@@ -98,7 +95,5 @@ class RepresentativeViewHolder(val binding: ItemRepresentativeBinding): Recycler
     }
 
 }
-
-//TODO: Create RepresentativeDiffCallback
 
 //TODO: Create RepresentativeListener
