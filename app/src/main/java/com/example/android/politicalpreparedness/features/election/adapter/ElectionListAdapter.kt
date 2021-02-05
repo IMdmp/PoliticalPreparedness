@@ -17,13 +17,17 @@ class ElectionListAdapter(private val clickListener: ElectionListener) : ListAda
 
     override fun onBindViewHolder(holder: ElectionViewHolder, position: Int) {
         val electionItem = getItem(position) as Election
-        holder.bind(electionItem)
+        holder.bind(electionItem,clickListener)
     }
 
 
     class ElectionViewHolder(private val binding: ItemElectionBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(electionItem: Election) {
-
+        fun bind(electionItem: Election, clickListener: ElectionListener) {
+            binding.tvElectionDate.text = electionItem.electionDay.toString()
+            binding.tvElectionTitle.text = electionItem.name
+            binding.root.setOnClickListener {
+                clickListener.onElectionSelected(electionItem)
+            }
         }
 
         companion object{
@@ -37,22 +41,17 @@ class ElectionListAdapter(private val clickListener: ElectionListener) : ListAda
 }
 
 interface ElectionListener {
-
+    fun onElectionSelected(election:Election)
 }
 
 class ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
     override fun areItemsTheSame(oldItem: Election, newItem: Election): Boolean {
-        TODO("Not yet implemented")
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Election, newItem: Election): Boolean {
-        TODO("Not yet implemented")
+        return oldItem == newItem
     }
 
 
 }
-//TODO: Create ElectionViewHolder
-
-//TODO: Create ElectionDiffCallback
-
-//TODO: Create ElectionListener

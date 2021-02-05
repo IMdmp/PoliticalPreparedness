@@ -16,16 +16,17 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 private const val BASE_URL = "https://www.googleapis.com/civicinfo/v2/"
 
+
 // TODO: Add adapters for Java Date and custom adapter ElectionAdapter (included in project)
 private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
         .add(ElectionAdapter())
         .add(DateAdapter())
+        .add(KotlinJsonAdapterFactory())
         .build()
-
 private val retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
@@ -42,10 +43,10 @@ interface CivicsApiService {
     fun getElectionList(): Call<ElectionResponse>
 
     @GET("voterinfo")
-    fun getVoterInfo():Call<VoterInfoResponse>
+    fun getVoterInfo(@Query("address")address:String):Call<VoterInfoResponse> //currently no data. (have to use election id 2000.) handle errors for now.
 
     @GET("representatives")
-    fun getRepresentatives():Call<RepresentativeResponse>
+    fun getRepresentatives(@Query("address")address:String):Call<RepresentativeResponse>
 }
 
 object CivicsApi {

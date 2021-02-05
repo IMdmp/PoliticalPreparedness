@@ -6,4 +6,9 @@ import com.squareup.moshi.JsonClass
 data class ElectionResponse(
         val kind: String,
         val elections: List<Election>
-)
+){
+
+    fun toDomain():List<Election>{
+        return elections
+    }
+}
