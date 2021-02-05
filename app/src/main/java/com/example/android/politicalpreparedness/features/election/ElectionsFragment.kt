@@ -76,7 +76,7 @@ class ElectionsFragment: BaseFragment(), ElectionListener {
     }
 
     override fun onElectionSelected(election: Election) {
-        _viewModel.navigationCommand.value =
+        viewModel.navigationCommand.value =
                 NavigationCommand.To(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election.id,election.division))
     }
     //TODO: Refresh adapters when fragment loads
