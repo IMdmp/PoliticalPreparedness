@@ -14,6 +14,7 @@ import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.ItemRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.features.representative.model.Representative
+import timber.log.Timber
 
 class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
 
@@ -29,11 +30,11 @@ class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewH
 
 class RepresentativeDiffCallback(): DiffUtil.ItemCallback<Representative>() {
     override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
-        TODO("Not yet implemented")
+        return oldItem.official.name.equals(newItem.official.name)
     }
 
     override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
-        TODO("Not yet implemented")
+        return oldItem == newItem
     }
 
 }
@@ -49,6 +50,7 @@ class RepresentativeViewHolder(val binding: ItemRepresentativeBinding): Recycler
     }
 
     fun bind(item: Representative) {
+        Timber.d("binding.")
         binding.representative = item
         binding.representativePhoto?.setImageResource(R.drawable.ic_profile)
 

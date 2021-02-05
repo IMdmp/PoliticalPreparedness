@@ -6,9 +6,17 @@ import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
+import com.example.android.politicalpreparedness.features.representative.adapter.RepresentativeListAdapter
 import com.example.android.politicalpreparedness.network.models.Address
+import kotlinx.android.synthetic.main.fragment_voter_info.*
+import timber.log.Timber
 import java.util.Locale
 
 class DetailFragment : Fragment() {
@@ -18,7 +26,8 @@ class DetailFragment : Fragment() {
     }
 
     //TODO: Declare ViewModel
-
+    private lateinit var viewModel: RepresentativeViewModel
+    private lateinit var adapter:RepresentativeListAdapter
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,7 +39,35 @@ class DetailFragment : Fragment() {
         //TODO: Populate Representative adapter
 
         //TODO: Establish button listeners for field and location search
+        viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
+        adapter  = RepresentativeListAdapter()
+        binding.rvRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvRepresentatives.adapter = adapter
+        binding.buttonSearch.setOnClickListener {
+            Timber.d("searching...")
+
+            val address1 = binding.addressLine1.text
+            val address2 = binding.addressLine2.text
+            val state = binding.state.getItemAtPosition(binding.state.selectedItemPosition)
+            val city= binding.city.text
+            val zip = binding.zip.text
+
+            val completeAddress = "$address2 $address1, $city, $state, $zip"
+            viewModel.findRepresentatives(completeAddress)
+        }
+
+        binding.buttonLocation.setOnClickListener {
+            Timber.d("get user location")
+        }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.representativeList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

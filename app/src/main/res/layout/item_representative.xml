@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="Representative"
+            <variable
+            name="representative"
             type="com.example.android.politicalpreparedness.features.representative.model.Representative" />
 
         <variable
-            name="RepresentativePhoto"
+            name="representativePhoto"
             type="android.widget.ImageView" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="100dp">
 
 
         <ImageView
             android:id="@+id/ivRepresentative"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_profile"
             />
 
-        <ImageView
-            android:id="@+id/facebookIcon"
+        <TextView
+            android:id="@+id/tvOffice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/twitterIcon"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/ivRepresentative"
+            tools:text="President of the United States"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@{representative.office.name}"
+            />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvOffice"
+            app:layout_constraintTop_toBottomOf="@id/tvOffice"
+            app:layout_constraintBottom_toTopOf="@id/tvParty"
+            tools:text="Barrack Obama"
+            android:text="@{representative.official.name}"
+
+            />
+        <TextView
+            android:id="@+id/tvParty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvOffice"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Democratic Party"
+            android:text="@{representative.official.party}" />
+        <ImageView
+            android:id="@+id/wwwIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toStartOf="@id/facebookIcon"
+            app:layout_constraintTop_toTopOf="@id/tvName"
+            android:src="@drawable/ic_www"
+            />
+        <ImageView
+            android:id="@+id/facebookIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toStartOf="@id/twitterIcon"
+            app:layout_constraintTop_toTopOf="@id/wwwIcon"
             />
 
         <ImageView
             android:id="@+id/twitterIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/wwwIcon"
+            android:src="@drawable/ic_twitter"
             />
 
-        <ImageView
-            android:id="@+id/wwwIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/facebookIcon"
-            app:layout_constraintTop_toTopOf="parent"
 
-            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
