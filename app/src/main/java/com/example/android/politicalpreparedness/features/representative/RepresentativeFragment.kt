@@ -9,6 +9,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.view.*
@@ -22,6 +23,7 @@ import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.features.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.features.representative.adapter.RepresentativeListener
 import com.example.android.politicalpreparedness.network.models.Address
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -29,7 +31,7 @@ import com.google.android.gms.tasks.Task
 import timber.log.Timber
 import java.util.Locale
 
-class DetailFragment : BaseFragment() {
+class DetailFragment : BaseFragment(), RepresentativeListener {
 
     companion object {
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -47,7 +49,7 @@ class DetailFragment : BaseFragment() {
         val binding = FragmentRepresentativeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
-        adapter = RepresentativeListAdapter()
+        adapter = RepresentativeListAdapter(this)
         binding.rvRepresentatives.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRepresentatives.adapter = adapter
         binding.repViewModel = viewModel
@@ -264,5 +266,13 @@ class DetailFragment : BaseFragment() {
 
     override val _viewModel: BaseViewModel
         get() = viewModel
+
+    override fun openUrl(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
 
 }

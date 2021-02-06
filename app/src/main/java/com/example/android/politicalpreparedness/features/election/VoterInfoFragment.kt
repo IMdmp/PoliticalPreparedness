@@ -22,9 +22,7 @@ class VoterInfoFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //TODO: Add ViewModel values and create ViewModel
         binding = FragmentVoterInfoBinding.inflate(layoutInflater)
-        //TODO: Add binding values
 
         //TODO: Populate voter info -- hide views without provided data.
         val voterInfoFragmentArgs by navArgs<VoterInfoFragmentArgs>()

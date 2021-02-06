@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="@id/tvOffice"
             app:layout_constraintTop_toBottomOf="@id/tvOffice"
             app:layout_constraintBottom_toTopOf="@id/tvParty"
-            tools:text="Barrack Obama"
+            tools:text="Joe Biden"
             android:text="@{representative.official.name}"
 
             />
@@ -67,6 +67,8 @@
             app:layout_constraintEnd_toStartOf="@id/facebookIcon"
             app:layout_constraintTop_toTopOf="@id/tvName"
             android:src="@drawable/ic_www"
+            android:visibility="invisible"
+
             />
         <ImageView
             android:id="@+id/facebookIcon"
@@ -74,6 +76,8 @@
             android:layout_height="40dp"
             app:layout_constraintEnd_toStartOf="@id/twitterIcon"
             app:layout_constraintTop_toTopOf="@id/wwwIcon"
+            android:src="@drawable/ic_facebook"
+            android:visibility="invisible"
             />
 
         <ImageView
@@ -83,6 +87,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/wwwIcon"
             android:src="@drawable/ic_twitter"
+            android:visibility="invisible"
+
             />
 
 

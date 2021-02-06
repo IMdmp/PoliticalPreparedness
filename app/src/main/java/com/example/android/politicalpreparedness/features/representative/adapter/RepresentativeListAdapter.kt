@@ -16,7 +16,8 @@ import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.features.representative.model.Representative
 import timber.log.Timber
 
-class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
+class RepresentativeListAdapter(private val representativeListener: RepresentativeListener)
+    : ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder.from(parent)
@@ -24,11 +25,11 @@ class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewH
 
     override fun onBindViewHolder(holder: RepresentativeViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, representativeListener)
     }
 }
 
-class RepresentativeDiffCallback(): DiffUtil.ItemCallback<Representative>() {
+class RepresentativeDiffCallback() : DiffUtil.ItemCallback<Representative>() {
     override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
         return oldItem.official.name.equals(newItem.official.name)
     }
@@ -39,32 +40,59 @@ class RepresentativeDiffCallback(): DiffUtil.ItemCallback<Representative>() {
 
 }
 
-class RepresentativeViewHolder(val binding: ItemRepresentativeBinding): RecyclerView.ViewHolder(binding.root) {
+class RepresentativeViewHolder(val binding: ItemRepresentativeBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    companion object{
-        fun from(parent:ViewGroup):RepresentativeViewHolder{
+    companion object {
+        fun from(parent: ViewGroup): RepresentativeViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding  = ItemRepresentativeBinding.inflate(layoutInflater,parent,false)
+            val binding = ItemRepresentativeBinding.inflate(layoutInflater, parent, false)
             return RepresentativeViewHolder(binding)
         }
     }
 
-    fun bind(item: Representative) {
+    fun bind(item: Representative, representativeListener: RepresentativeListener) {
         Timber.d("binding.")
         binding.representative = item
         binding.representativePhoto?.setImageResource(R.drawable.ic_profile)
 
-        //TODO: Show social links ** Hint: Use provided helper methods
-        //TODO: Show www link ** Hint: Use provided helper methods
+        val channels = item.official.channels
+        val urls = item.official.urls
+        channels?.let {  channel ->
+            showSocialLinks(channel)
 
+            binding.facebookIcon.setOnClickListener {
+                val fbUrl = getFacebookUrl(channel)
+                fbUrl?.let { fb ->
+                    representativeListener.openUrl(fb)
+                }
+            }
+
+            binding.twitterIcon.setOnClickListener {
+                val twitterUrl = getTwitterUrl(channel)
+                twitterUrl?.let { twitter ->
+                    representativeListener.openUrl(twitter)
+                }
+            }
+        }
+        urls?.let { urlList ->
+            showWWWLinks(urlList)
+            binding.wwwIcon.setOnClickListener {
+                representativeListener.openUrl(urlList.first())
+            }
+        }
         binding.executePendingBindings()
     }
+
     private fun showSocialLinks(channels: List<Channel>) {
         val facebookUrl = getFacebookUrl(channels)
-        if (!facebookUrl.isNullOrBlank()) { enableLink(binding.facebookIcon, facebookUrl) }
+        if (!facebookUrl.isNullOrBlank()) {
+            enableLink(binding.facebookIcon, facebookUrl)
+        }
 
         val twitterUrl = getTwitterUrl(channels)
-        if (!twitterUrl.isNullOrBlank()) { enableLink(binding.twitterIcon, twitterUrl) }
+        if (!twitterUrl.isNullOrBlank()) {
+            enableLink(binding.twitterIcon, twitterUrl)
+        }
     }
 
     private fun showWWWLinks(urls: List<String>) {
@@ -96,4 +124,6 @@ class RepresentativeViewHolder(val binding: ItemRepresentativeBinding): Recycler
 
 }
 
-//TODO: Create RepresentativeListener
+interface RepresentativeListener {
+    fun openUrl(url: String)
+}
