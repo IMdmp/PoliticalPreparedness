@@ -52,7 +52,7 @@ class RepresentativeViewModel : BaseViewModel() {
                 val (offices, officials) = CivicsApi.retrofitService.getRepresentatives(address).await()
                 _representativeList.value = offices.flatMap { office -> office.getRepresentatives(officials) }
             } catch (e: Exception) {
-                showErrorMessage.value = "${e.message}"
+                showErrorMessage.value = "Unable to retrieve representatives: ${e.message}"
             }
             showLoading.value = false
         }

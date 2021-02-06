@@ -8,7 +8,9 @@ import com.example.android.politicalpreparedness.data.ElectionRepository
 import com.example.android.politicalpreparedness.data.Result
 import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import timber.log.Timber
+import java.lang.Exception
 
 class ElectionsViewModel(private val electionRepository: ElectionRepository): BaseViewModel() {
 
@@ -38,7 +40,11 @@ class ElectionsViewModel(private val electionRepository: ElectionRepository): Ba
     fun refresh(){
         showLoading.value = true
         viewModelScope.launch {
-            electionRepository.refreshElectionList()
+            try{
+                electionRepository.refreshElectionList()
+            }catch(e:Exception){
+                showErrorMessage.value= "Unable to retrieve Election details. ${e.message}"
+            }
         }
         getUpcomingElections()
         getSavedElections()
