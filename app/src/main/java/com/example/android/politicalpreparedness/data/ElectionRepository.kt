@@ -21,7 +21,6 @@ class ElectionRepository(
         val remoteElectionList = electionRemoteDataSource.getElectionList()
 
         if(remoteElectionList is Result.Success){
-            electionLocalDataSource.deleteAllElections()
 
             remoteElectionList.data.forEach { election->
                 electionLocalDataSource.saveElection(election)
@@ -33,5 +32,17 @@ class ElectionRepository(
 
     suspend fun getVoterInfo(address:String,electionId:Int):Result<VoterInfoResponse> {
         return electionRemoteDataSource.getVoterInfo(address,electionId)
+    }
+
+    suspend fun saveElection(argElectionId: Int,isFavorite:Boolean) {
+        electionLocalDataSource.setFavoriteElection(argElectionId,isFavorite)
+    }
+
+    suspend fun getElection(electionId: Int): Election? {
+        return electionLocalDataSource.getElection(electionId)
+    }
+
+    suspend fun getSavedElectionList(): Result<List<Election>> {
+        return electionLocalDataSource.getAllSavedElections()
     }
 }

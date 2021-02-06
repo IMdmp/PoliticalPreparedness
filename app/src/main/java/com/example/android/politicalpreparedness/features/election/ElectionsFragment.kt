@@ -1,12 +1,10 @@
 package com.example.android.politicalpreparedness.features.election
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,22 +13,15 @@ import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.base.NavigationCommand
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
-import com.example.android.politicalpreparedness.databinding.FragmentLaunchBinding
 import com.example.android.politicalpreparedness.features.election.adapter.ElectionListAdapter
 import com.example.android.politicalpreparedness.features.election.adapter.ElectionListener
-import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import retrofit2.await
-import timber.log.Timber
-import java.lang.Exception
 
 class ElectionsFragment: BaseFragment(), ElectionListener {
 
     private lateinit var viewModel: ElectionsViewModel
-    private lateinit var adapter:ElectionListAdapter
+    private lateinit var upcomingAdapter:ElectionListAdapter
+    private lateinit var savedAdapter:ElectionListAdapter
     private lateinit var binding:FragmentElectionBinding
     private lateinit var customApplication: CustomApplication
 
@@ -59,11 +50,17 @@ class ElectionsFragment: BaseFragment(), ElectionListener {
     }
 
     private fun setupAdapter() {
-        adapter = ElectionListAdapter(this)
-        binding.rvUpcomingElections.adapter = adapter
+        upcomingAdapter = ElectionListAdapter(this)
+        binding.rvUpcomingElections.adapter = upcomingAdapter
         binding.rvUpcomingElections.layoutManager = LinearLayoutManager(requireContext())
         viewModel.upcomingElections.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
+            upcomingAdapter.submitList(it)
+        })
+        savedAdapter = ElectionListAdapter(this)
+        binding.rvSavedElections.adapter= savedAdapter
+        binding.rvSavedElections.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.savedElections.observe(viewLifecycleOwner, Observer {
+            savedAdapter.submitList(it)
         })
     }
 

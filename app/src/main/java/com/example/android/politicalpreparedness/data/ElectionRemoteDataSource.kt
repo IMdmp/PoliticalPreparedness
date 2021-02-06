@@ -27,5 +27,15 @@ class ElectionRemoteDataSource :ElectionDataSource{
         }
     }
 
+    override suspend fun getElection(electionId: Int): Election? {
+        //no op.
+        return null
+    }
+
+    override suspend fun getAllSavedElections(): Result<List<Election>> {
+        //no op.
+        TODO("Not yet implemented")
+    }
+
 
 }

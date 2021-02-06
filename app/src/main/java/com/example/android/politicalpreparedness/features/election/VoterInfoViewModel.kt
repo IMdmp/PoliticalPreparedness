@@ -1,18 +1,35 @@
 package com.example.android.politicalpreparedness.features.election
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.content.Intent
+import android.net.Uri
+import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.data.ElectionRepository
 import com.example.android.politicalpreparedness.data.Result
+import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class VoterInfoViewModel(private val dataSource: ElectionRepository,
                          private val voterInfoFragmentArgs: VoterInfoFragmentArgs) : ViewModel() {
 
     var voterInfoData = MutableLiveData<VoterInfoResponse>()
-    private var voterInfo:VoterInfoResponse?=null
+    var currentElection = MutableLiveData<Election>()
+    var electionIsFavorite = MutableLiveData<Boolean>()
+    private val _eventOpenUrl = MutableLiveData<String>()
+    val eventOpenUrl: LiveData<String>
+        get() = _eventOpenUrl
+
+    init {
+        viewModelScope.launch {
+            val curElect = dataSource.getElection(voterInfoFragmentArgs.argElectionId)
+            curElect?.let {
+                currentElection.value = curElect
+                electionIsFavorite.value = curElect.isFavorite
+            }
+        }
+        _eventOpenUrl.value=""
+    }
 
     fun getVoterInfo() {
         viewModelScope.launch {
@@ -22,11 +39,11 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
                     voterInfoFragmentArgs.argElectionId)
 
 
-            when(voterResult){
-                is Result.Success->{
+            when (voterResult) {
+                is Result.Success -> {
                     voterInfoData.value = voterResult.data
                 }
-                is Result.Error ->{
+                is Result.Error -> {
 
                 }
                 is Result.Loading -> {
@@ -36,21 +53,50 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
 
     }
 
-    fun updateData() {
-        voterInfo = voterInfoData.value
-
-    }
     //TODO: Add live data to hold voter info
 
     //TODO: Add var and methods to populate voter info
 
     //TODO: Add var and methods to support loading URLs
 
-    //TODO: Add var and methods to save and remove elections to local database
-    //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
 
-    /**
-     * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
-     */
+    fun votingLocationSelected() {
+        val voteData = voterInfoData.value
+        val voteLocationUrl = voteData?.state?.elementAtOrNull(0)?.electionAdministrationBody?.votingLocationFinderUrl
+                ?: ""
 
+        if (voteLocationUrl.isNotEmpty()) {
+            //trigger event.
+            _eventOpenUrl.value = voteLocationUrl
+        }
+    }
+
+
+    fun ballotInfoSelected() {
+        val voteData = voterInfoData.value
+
+        val ballotInfoUrl = voteData?.state?.elementAtOrNull(0)?.electionAdministrationBody?.ballotInfoUrl
+                ?: ""
+
+        if (ballotInfoUrl.isNotEmpty()) {
+            //trigger event.
+            _eventOpenUrl.value = ballotInfoUrl
+
+        }
+    }
+
+    fun onOpenUrlComplete(){
+        _eventOpenUrl.value=""
+    }
+
+    fun toggleElection() {
+        val currentState = electionIsFavorite.value
+        Timber.d("setting state to: $currentState")
+        currentState?.let {
+            viewModelScope.launch {
+                dataSource.saveElection(voterInfoFragmentArgs.argElectionId, !currentState)
+            }
+            electionIsFavorite.value = !currentState
+        }
+    }
 }

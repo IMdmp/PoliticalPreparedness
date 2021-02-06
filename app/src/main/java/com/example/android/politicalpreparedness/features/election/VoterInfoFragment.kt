@@ -1,6 +1,8 @@
 package com.example.android.politicalpreparedness.features.election
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -15,7 +17,7 @@ class VoterInfoFragment : Fragment() {
 
     private lateinit var application: CustomApplication
     private lateinit var voterViewModel: VoterInfoViewModel
-    private lateinit var binding:FragmentVoterInfoBinding
+    private lateinit var binding: FragmentVoterInfoBinding
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -29,26 +31,43 @@ class VoterInfoFragment : Fragment() {
         val voterInfoViewModelFactory = VoterInfoViewModelFactory(application.electionRepository, voterInfoFragmentArgs)
 
         voterViewModel = ViewModelProvider(this, voterInfoViewModelFactory).get(VoterInfoViewModel::class.java)
+        binding.voterInfoViewModel = voterViewModel
+        binding.lifecycleOwner = this
 
-        //TODO: Handle loading of URLs
-
-        //TODO: Handle save button UI state
-        //TODO: cont'd Handle save button clicks
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
+
+    fun openWebPage(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         voterViewModel.getVoterInfo()
-        voterViewModel.voterInfoData.observe(viewLifecycleOwner, Observer {
-            voterViewModel.updateData()
-            binding.electionName.title = it.election.name
 
-            Timber.d("voter info: ${it}")
+        voterViewModel.electionIsFavorite.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.followElectionButton.text = "Unfollow Election"
+            } else {
+                binding.followElectionButton.text = "Follow Election"
+            }
+        })
+
+        voterViewModel.eventOpenUrl.observe(viewLifecycleOwner, Observer { url->
+            if(url.isNotEmpty()){
+                openWebPage(url)
+                voterViewModel.onOpenUrlComplete()
+            }
         })
     }
+
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         application = requireActivity().application as CustomApplication

@@ -1,5 +1,8 @@
 package com.example.android.politicalpreparedness.data
 
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Room
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,5 +27,21 @@ class ElectionLocalDataSource(private val electionDao: ElectionDao,
 
     override suspend fun saveElection(election:Election) {
         electionDao.insertElection(election)
+    }
+
+    override suspend fun setFavoriteElection(electionId: Int,isFavorite:Boolean) {
+        electionDao.setFavorite(isFavorite,electionId)
+    }
+
+    override suspend fun getElection(electionId: Int): Election? {
+        return electionDao.getElectionById(electionId)
+    }
+
+    override suspend fun getAllSavedElections(): Result<List<Election>> = withContext(ioDispatcher){
+        return@withContext try{
+            Result.Success(electionDao.getAllSaved())
+        }catch (e:Exception){
+            Result.Error(e)
+        }
     }
 }
