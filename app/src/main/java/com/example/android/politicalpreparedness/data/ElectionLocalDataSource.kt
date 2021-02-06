@@ -1,8 +1,5 @@
 package com.example.android.politicalpreparedness.data
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Room
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.CoroutineDispatcher

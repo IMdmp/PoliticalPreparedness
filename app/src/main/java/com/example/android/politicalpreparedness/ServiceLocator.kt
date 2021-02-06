@@ -18,19 +18,16 @@ object ServiceLocator {
     }
 
     private fun createElectionRepository(context: Context): ElectionRepository {
-        val newElectionRepo = ElectionRepository(createRemoteRepo(),createLocalRepo(context))
-        return newElectionRepo
+        return ElectionRepository(createRemoteRepo(),createLocalRepo(context))
     }
 
     private fun createLocalRepo(context: Context): ElectionLocalDataSource {
         val db = ElectionDatabase.getInstance(context)
-        val localRepo = ElectionLocalDataSource(db.electionDao)
-        return localRepo
+        return ElectionLocalDataSource(db.electionDao)
     }
 
     private fun createRemoteRepo(): ElectionRemoteDataSource {
-        val remoteRepo = ElectionRemoteDataSource()
-        return remoteRepo
+        return ElectionRemoteDataSource()
     }
 
 }

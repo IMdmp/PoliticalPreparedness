@@ -10,7 +10,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.ItemRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.features.representative.model.Representative
@@ -29,7 +28,7 @@ class RepresentativeListAdapter(private val representativeListener: Representati
     }
 }
 
-class RepresentativeDiffCallback() : DiffUtil.ItemCallback<Representative>() {
+class RepresentativeDiffCallback : DiffUtil.ItemCallback<Representative>() {
     override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
         return oldItem.official.name.equals(newItem.official.name)
     }

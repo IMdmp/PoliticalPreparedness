@@ -1,15 +1,12 @@
 package com.example.android.politicalpreparedness.features.election
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.data.ElectionRepository
 import com.example.android.politicalpreparedness.data.Result
 import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import timber.log.Timber
 import java.lang.Exception
 
 class ElectionsViewModel(private val electionRepository: ElectionRepository): BaseViewModel() {

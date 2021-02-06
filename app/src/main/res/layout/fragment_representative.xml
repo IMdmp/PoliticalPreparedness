@@ -22,7 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- TODO: Add data binding value -->
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/address_line_1"
@@ -35,7 +34,6 @@
             android:text="@{repViewModel.address.line1}"
             />
 
-        <!-- TODO: Add data binding value -->
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/address_line_2"
@@ -48,7 +46,6 @@
             android:text="@{repViewModel.address.line2}"
             />
 
-        <!-- TODO: Add data binding value -->
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/city"

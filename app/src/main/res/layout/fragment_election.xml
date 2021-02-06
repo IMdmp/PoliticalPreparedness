@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rvUpcomingElections"
             android:textSize="18sp"
-            android:text="Upcoming Elections"
+            android:text="@string/upcoming_election"
             />
 
 
@@ -52,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rvSavedElections"
             android:textSize="18sp"
-            android:text="Saved Elections"
+            android:text="@string/saved_elections"
             />
 
 

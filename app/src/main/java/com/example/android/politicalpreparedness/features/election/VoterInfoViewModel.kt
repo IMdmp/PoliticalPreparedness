@@ -1,7 +1,5 @@
 package com.example.android.politicalpreparedness.features.election
 
-import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.data.ElectionRepository

@@ -19,13 +19,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ballot_logo"
-            />
+            android:contentDescription="@string/ballot_logo" />
 
         <Button
             android:id="@+id/upcomingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upcoming Election"
+            android:text="@string/upcoming_election"
             app:layout_constraintBottom_toTopOf="@id/representativeButton"
             android:layout_marginBottom="8dp"
             />
@@ -35,7 +35,7 @@
             android:id="@+id/representativeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Find my representatives"
+            android:text="@string/find_my_representatives"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="32dp"
             />

@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:onClick="@{()->voterInfoViewModel.votingLocationSelected()}"
-            android:text="Voting Locations"
+            android:text="@string/voting_locations"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_header" />
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:onClick="@{()->voterInfoViewModel.ballotInfoSelected()}"
-            android:text="Ballot Information"
+            android:text="@string/ballot_information"
             android:textSize="18sp"
 
             app:layout_constraintStart_toStartOf="@id/election_date"

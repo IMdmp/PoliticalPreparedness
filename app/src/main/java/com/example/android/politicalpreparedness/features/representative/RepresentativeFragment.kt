@@ -15,7 +15,6 @@ import android.os.Looper
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +44,7 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
     private lateinit var binding: FragmentRepresentativeBinding
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentRepresentativeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
@@ -94,7 +93,7 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
             }
         })
         mFusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(requireActivity());
+                LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     private fun checkLocationSettings() {
@@ -135,7 +134,7 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
                             0,
                             0,
                             0,
-                            null);
+                            null)
 
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -195,21 +194,21 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
     @SuppressLint("MissingPermission")
     private fun makeLocationRequest() {
 
-        val locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(20 * 1000);
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 20 * 1000
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     if (location != null) {
-                        val lat = location.latitude;
-                        val long = location.longitude;
+                        val lat = location.latitude
+                        val long = location.longitude
                         geoCodeLocationAndInputFields(lat, long)
                         mFusedLocationProviderClient.removeLocationUpdates(this)
                     }
                 }
             }
-        };
+        }
         mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 

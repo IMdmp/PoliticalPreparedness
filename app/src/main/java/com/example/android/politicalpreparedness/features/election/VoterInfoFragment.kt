@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -14,7 +13,6 @@ import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
-import timber.log.Timber
 
 class VoterInfoFragment : BaseFragment() {
 
