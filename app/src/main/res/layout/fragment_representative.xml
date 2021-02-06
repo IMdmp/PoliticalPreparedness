@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/zip"
-            android:text="Find my representatives"
+            android:text="@string/find_my_representatives"
             />
 
         <!-- TODO: Add visual styling and content -->
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/button_search"
-            android:text="Use my Location"
+            android:text="@string/use_my_location"
             />
 
         <!-- TODO: Add visual styling and content -->
@@ -119,7 +119,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_location"
-            android:text="My Representatives"
+            android:text="@string/my_representatives"
+            android:textSize="18sp"
+            android:textStyle="bold"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -130,5 +132,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:progressTint="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="@id/rv_representatives"
+            app:layout_constraintBottom_toBottomOf="@id/rv_representatives"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="4dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

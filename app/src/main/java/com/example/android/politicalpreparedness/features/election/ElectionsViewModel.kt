@@ -10,7 +10,6 @@ import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-//TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(private val electionRepository: ElectionRepository): BaseViewModel() {
 
     val upcomingElections = MutableLiveData<List<Election>>()
@@ -37,15 +36,12 @@ class ElectionsViewModel(private val electionRepository: ElectionRepository): Ba
     }
 
     fun refresh(){
+        showLoading.value = true
         viewModelScope.launch {
             electionRepository.refreshElectionList()
         }
         getUpcomingElections()
         getSavedElections()
+        showLoading.value = false
     }
-
-    //TODO: Create functions to navigate to saved or upcoming election voter info
-
-
-
 }

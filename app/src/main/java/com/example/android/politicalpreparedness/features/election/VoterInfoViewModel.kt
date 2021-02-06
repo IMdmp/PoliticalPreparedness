@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.features.election
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.*
+import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.data.ElectionRepository
 import com.example.android.politicalpreparedness.data.Result
 import com.example.android.politicalpreparedness.network.models.Election
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class VoterInfoViewModel(private val dataSource: ElectionRepository,
-                         private val voterInfoFragmentArgs: VoterInfoFragmentArgs) : ViewModel() {
+                         private val voterInfoFragmentArgs: VoterInfoFragmentArgs) : BaseViewModel() {
 
     var voterInfoData = MutableLiveData<VoterInfoResponse>()
     var currentElection = MutableLiveData<Election>()
@@ -32,6 +33,7 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
     }
 
     fun getVoterInfo() {
+        showLoading.value = true
         viewModelScope.launch {
             val voterResult = dataSource.getVoterInfo(voterInfoFragmentArgs.argDivision.state
                     .plus(" ")
@@ -44,21 +46,16 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
                     voterInfoData.value = voterResult.data
                 }
                 is Result.Error -> {
-
+                    showErrorMessage.value = "No voting data found."
                 }
                 is Result.Loading -> {
+                    showLoading.value = true
                 }
             }
+            showLoading.value = false
         }
 
     }
-
-    //TODO: Add live data to hold voter info
-
-    //TODO: Add var and methods to populate voter info
-
-    //TODO: Add var and methods to support loading URLs
-
 
     fun votingLocationSelected() {
         val voteData = voterInfoData.value

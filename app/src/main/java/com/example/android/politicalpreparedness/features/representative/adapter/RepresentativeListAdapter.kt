@@ -53,7 +53,6 @@ class RepresentativeViewHolder(val binding: ItemRepresentativeBinding) : Recycle
     fun bind(item: Representative, representativeListener: RepresentativeListener) {
         Timber.d("binding.")
         binding.representative = item
-        binding.representativePhoto?.setImageResource(R.drawable.ic_profile)
 
         val channels = item.official.channels
         val urls = item.official.urls

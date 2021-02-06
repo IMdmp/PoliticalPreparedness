@@ -32,7 +32,17 @@
             app:layout_constraintTop_toBottomOf="@id/tvUpcomingElections"
             app:layout_constraintBottom_toTopOf="@id/tvSavedElections" />
 
-
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/rvUpcomingElections"
+            app:layout_constraintEnd_toEndOf="@id/rvUpcomingElections"
+            app:layout_constraintTop_toTopOf="@id/rvUpcomingElections"
+            app:layout_constraintBottom_toBottomOf="@id/rvUpcomingElections"
+            android:progressTint="@color/colorAccent"
+            android:visibility="gone"
+            />
         <TextView
             android:id="@+id/tvSavedElections"
             android:layout_width="wrap_content"

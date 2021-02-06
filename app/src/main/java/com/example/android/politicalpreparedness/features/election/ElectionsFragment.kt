@@ -36,10 +36,7 @@ class ElectionsFragment: BaseFragment(), ElectionListener {
         binding.electionViewModel = viewModel
         binding.lifecycleOwner = this
 
-        //TODO: Link elections to voter info
         setupAdapter()
-
-        //TODO: Populate recycler adapters
 
         return binding.root
     }
@@ -47,6 +44,14 @@ class ElectionsFragment: BaseFragment(), ElectionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.refresh()
+
+        viewModel.showLoading.observe(viewLifecycleOwner, Observer { isLoading->
+            if(isLoading){
+                binding.pbLoading.visibility = View.VISIBLE
+            }else{
+                binding.pbLoading.visibility = View.GONE
+            }
+        })
     }
 
     private fun setupAdapter() {
@@ -76,6 +81,4 @@ class ElectionsFragment: BaseFragment(), ElectionListener {
         viewModel.navigationCommand.value =
                 NavigationCommand.To(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election.id,election.division))
     }
-    //TODO: Refresh adapters when fragment loads
-
 }

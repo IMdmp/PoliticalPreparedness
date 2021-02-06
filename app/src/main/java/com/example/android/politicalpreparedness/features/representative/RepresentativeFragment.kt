@@ -42,11 +42,11 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
     private lateinit var viewModel: RepresentativeViewModel
     private lateinit var adapter: RepresentativeListAdapter
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-
+    private lateinit var binding: FragmentRepresentativeBinding
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentRepresentativeBinding.inflate(inflater)
+        binding = FragmentRepresentativeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
         adapter = RepresentativeListAdapter(this)
@@ -84,6 +84,14 @@ class DetailFragment : BaseFragment(), RepresentativeListener {
 
         viewModel.address.observe(viewLifecycleOwner, Observer {
             viewModel.findRepresentatives(it)
+        })
+
+        viewModel.showLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                binding.pbLoading.visibility = View.VISIBLE
+            } else {
+                binding.pbLoading.visibility = View.GONE
+            }
         })
         mFusedLocationProviderClient =
                 LocationServices.getFusedLocationProviderClient(requireActivity());

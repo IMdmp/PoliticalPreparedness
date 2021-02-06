@@ -10,10 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.android.politicalpreparedness.CustomApplication
+import com.example.android.politicalpreparedness.base.BaseFragment
+import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
 import timber.log.Timber
 
-class VoterInfoFragment : Fragment() {
+class VoterInfoFragment : BaseFragment() {
 
     private lateinit var application: CustomApplication
     private lateinit var voterViewModel: VoterInfoViewModel
@@ -62,9 +64,19 @@ class VoterInfoFragment : Fragment() {
                 voterViewModel.onOpenUrlComplete()
             }
         })
+
+        voterViewModel.showLoading.observe(viewLifecycleOwner, Observer { loading->
+            if(loading){
+                binding.pbLoading.visibility = View.VISIBLE
+            }else{
+               binding.pbLoading.visibility= View.GONE
+            }
+        })
+
     }
 
-
+    override val _viewModel: BaseViewModel
+        get() = voterViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

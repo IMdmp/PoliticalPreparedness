@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-            <variable
+
+        <variable
             name="representative"
             type="com.example.android.politicalpreparedness.features.representative.model.Representative" />
 
@@ -20,74 +21,77 @@
 
         <ImageView
             android:id="@+id/ivRepresentative"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            profileImage="@{representative.official.photoUrl}"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_profile"
-            />
+            tools:src="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/tvOffice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvName"
-            app:layout_constraintStart_toEndOf="@id/ivRepresentative"
-            tools:text="President of the United States"
             android:layout_marginStart="8dp"
+            android:text="@{representative.office.name}"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@{representative.office.name}"
-            />
+            app:layout_constraintBottom_toTopOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/ivRepresentative"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="President of the United States" />
+
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{representative.official.name}"
+            app:layout_constraintBottom_toTopOf="@id/tvParty"
             app:layout_constraintStart_toStartOf="@id/tvOffice"
             app:layout_constraintTop_toBottomOf="@id/tvOffice"
-            app:layout_constraintBottom_toTopOf="@id/tvParty"
             tools:text="Joe Biden"
-            android:text="@{representative.official.name}"
 
             />
+
         <TextView
             android:id="@+id/tvParty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{representative.official.party}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvOffice"
             app:layout_constraintTop_toBottomOf="@id/tvName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Democratic Party"
-            android:text="@{representative.official.party}" />
+            tools:text="Democratic Party" />
+
         <ImageView
             android:id="@+id/wwwIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toStartOf="@id/facebookIcon"
-            app:layout_constraintTop_toTopOf="@id/tvName"
             android:src="@drawable/ic_www"
             android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/facebookIcon"
+            app:layout_constraintTop_toTopOf="@id/tvName"
 
             />
+
         <ImageView
             android:id="@+id/facebookIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toStartOf="@id/twitterIcon"
-            app:layout_constraintTop_toTopOf="@id/wwwIcon"
             android:src="@drawable/ic_facebook"
             android:visibility="invisible"
-            />
+            app:layout_constraintEnd_toStartOf="@id/twitterIcon"
+            app:layout_constraintTop_toTopOf="@id/wwwIcon" />
 
         <ImageView
             android:id="@+id/twitterIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/wwwIcon"
             android:src="@drawable/ic_twitter"
             android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/wwwIcon"
 
             />
 

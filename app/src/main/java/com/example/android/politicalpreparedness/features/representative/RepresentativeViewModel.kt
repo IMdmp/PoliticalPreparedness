@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.features.representative
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,13 +12,15 @@ import kotlinx.coroutines.launch
 import retrofit2.await
 import java.lang.Exception
 
+
 class RepresentativeViewModel : BaseViewModel() {
 
-    //TODO: Establish live data for representatives and address
-
-    //TODO: Create function to fetch representatives from API from a provided address
-    var representativeList = MutableLiveData<List<Representative>>()
-    var address = MutableLiveData<Address>()
+    private var _representativeList = MutableLiveData<List<Representative>>()
+    val representativeList: LiveData<List<Representative>>
+        get() = _representativeList
+    private var _address = MutableLiveData<Address>()
+    val address: LiveData<Address>
+        get() = _address
 
     /**
      *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
@@ -42,19 +45,21 @@ class RepresentativeViewModel : BaseViewModel() {
     }
 
     fun findRepresentatives(address: String) {
-        viewModelScope.launch {
 
+        showLoading.value = true
+        viewModelScope.launch {
             try {
                 val (offices, officials) = CivicsApi.retrofitService.getRepresentatives(address).await()
-                representativeList.value = offices.flatMap { office -> office.getRepresentatives(officials) }
+                _representativeList.value = offices.flatMap { office -> office.getRepresentatives(officials) }
             } catch (e: Exception) {
                 showErrorMessage.value = "${e.message}"
             }
+            showLoading.value = false
         }
     }
 
 
     fun updateAddress(address: Address) {
-        this.address.value = address
+        _address.value = address
     }
 }
