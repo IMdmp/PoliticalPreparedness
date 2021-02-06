@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.android.politicalpreparedness.CustomApplication
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
@@ -22,11 +23,10 @@ class VoterInfoFragment : BaseFragment() {
     private lateinit var binding: FragmentVoterInfoBinding
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         binding = FragmentVoterInfoBinding.inflate(layoutInflater)
 
-        //TODO: Populate voter info -- hide views without provided data.
         val voterInfoFragmentArgs by navArgs<VoterInfoFragmentArgs>()
         val voterInfoViewModelFactory = VoterInfoViewModelFactory(application.electionRepository, voterInfoFragmentArgs)
 
@@ -52,9 +52,9 @@ class VoterInfoFragment : BaseFragment() {
 
         voterViewModel.electionIsFavorite.observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.followElectionButton.text = "Unfollow Election"
+                binding.followElectionButton.text = getString(R.string.unfollow_ellection)
             } else {
-                binding.followElectionButton.text = "Follow Election"
+                binding.followElectionButton.text = getString(R.string.follow_election)
             }
         })
 

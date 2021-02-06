@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.base.BaseViewModel
 import com.example.android.politicalpreparedness.data.ElectionRepository
 import com.example.android.politicalpreparedness.data.Result
+import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.launch
@@ -17,6 +18,9 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
     var voterInfoData = MutableLiveData<VoterInfoResponse>()
     var currentElection = MutableLiveData<Election>()
     var electionIsFavorite = MutableLiveData<Boolean>()
+    var stateCorrespondenceAddress = MutableLiveData<String>()
+    var showAddress = MutableLiveData<Boolean>()
+
     private val _eventOpenUrl = MutableLiveData<String>()
     val eventOpenUrl: LiveData<String>
         get() = _eventOpenUrl
@@ -29,7 +33,7 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
                 electionIsFavorite.value = curElect.isFavorite
             }
         }
-        _eventOpenUrl.value=""
+        _eventOpenUrl.value = ""
     }
 
     fun getVoterInfo() {
@@ -44,6 +48,10 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
             when (voterResult) {
                 is Result.Success -> {
                     voterInfoData.value = voterResult.data
+                    val retrievedAddress = retrieveAddress(voterResult.data.state?.first()?.electionAdministrationBody?.correspondenceAddress)
+                    stateCorrespondenceAddress.value = retrievedAddress
+                    showAddress.value = retrievedAddress.isNotEmpty()
+
                 }
                 is Result.Error -> {
                     showErrorMessage.value = "No voting data found."
@@ -55,6 +63,14 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
             showLoading.value = false
         }
 
+    }
+
+    private fun retrieveAddress(correspondenceAddress: Address?): String {
+        Timber.d("address? $correspondenceAddress")
+        correspondenceAddress?.let {
+            return "${it.line1} ${it.city} ${it.state} ${it.zip}"
+        }
+        return ""
     }
 
     fun votingLocationSelected() {
@@ -82,8 +98,8 @@ class VoterInfoViewModel(private val dataSource: ElectionRepository,
         }
     }
 
-    fun onOpenUrlComplete(){
-        _eventOpenUrl.value=""
+    fun onOpenUrlComplete() {
+        _eventOpenUrl.value = ""
     }
 
     fun toggleElection() {
